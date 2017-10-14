@@ -11,8 +11,10 @@
 #define hashTable_h
 
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <math.h>
+
+using namespace std;
 
 class HashTable{
   public:
@@ -24,8 +26,8 @@ class HashTable{
     
   protected:
     int primaryHash(const string&);
-    virtual void initCollision(){} = 0;
-    virtual void collisionHandler(){} = 0;
+    virtual void initCollision() = 0;
+    virtual int collisionHandler() = 0;
 
   private:
     int arrSize;

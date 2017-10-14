@@ -1,4 +1,4 @@
-0// CSC 321 Fall 2017 Mossinghoff
+// CSC 321 Fall 2017 Mossinghoff
 // Program 2: Nonundergraduate Zarathustrianism
 // Outline of client code
 // Your names here!
@@ -14,9 +14,9 @@
 using namespace std;
 
 #include "bst.h"
-#include "doublehash.h"
+/*#include "doublehash.h"
 #include "linearprobe.h"
-#include "quadraticprobe.h"
+#include "quadraticprobe.h"*/
 
 bool validTableSize(int n);
 
@@ -55,6 +55,7 @@ int main() {
     int numStrings = numCommon + numEnglish16;
     string* allStrings = new string[numStrings];
     /* Rest of code omitted */
+    // Load common words into array
     for (int i = 0; i < numCommon; i++){
         inc >> allStrings[i];
         if (inc.fail()) {
@@ -63,6 +64,7 @@ int main() {
         }
     }
     
+    // Load long words into array
     for (int i = 0; i < numEnglish16; i++){
         inj >> allStrings[i + numCommon];
         if (inj.fail()) {
@@ -70,6 +72,13 @@ int main() {
             exit(1);
         }
     }
+    
+    // Shuffle array elements
+    for (int i = numStrings - 1; i >= 0; i--) {
+        swap(allStrings[i], allStrings[static_cast<int>(drand48() * i)]);
+    }
+    
+    for (int i = 0; i < 20; i++) cout << allStrings[i] << endl;
 
 
     // Close the file stream objects.

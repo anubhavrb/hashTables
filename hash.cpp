@@ -21,7 +21,7 @@ HashTable::HashTable(int maxN, double load){
     
     // initialize hash table array
     table = new string[maxN];
-    for (int i = 0; i<arrSize; i++) table[i] = NULL;
+    for (int i = 0; i<arrSize; i++) table[i] = "";
 }
 
 // destructor
@@ -32,10 +32,11 @@ HashTable::~HashTable(){
 // general hash function
 void HashTable::hash(const string& s){
     int h = primaryHash(s);
-    if (table[h] != NULL) {
+    int offset = 0;
+    if (table[h] != "") {
         initCollision();
-        int offset = collisionHandler();
-        while(table[h + offset]!=NULL){
+        offset = collisionHandler();
+        while(table[h + offset] != ""){
             offset = collisionHandler();
         }
     }
@@ -43,19 +44,19 @@ void HashTable::hash(const string& s){
 }
 
 // search for entry in table
-bool search(const string& s) {
+bool HashTable::search(const string& s) {
     
     int h = primaryHash(s);
     if (table[h] == s) return true;
-    else if (table[h] == NULL) return false;
+    else if (table[h] == "") return false;
     initCollision();
-    int offset = collisonHandler();
+    int offset = collisionHandler();
     
     int iterations = 0;
     while (iterations < arrSize) {
         if (table[h + offset] == s) return true;
-        else if (table[h + offset] == NULL) return false;
-        offset = collisonHandler();
+        else if (table[h + offset] == "") return false;
+        offset = collisionHandler();
         iterations++;
     }
     return false;
