@@ -18,6 +18,22 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
+// function for prime testing. used for calculating table size.
+bool validTableSize(int n){
+    
+    // base cases
+    if(n == 0 || n == 1) return false;
+    if(n % 2 == 0) return false;
+    
+    for(int i = 3; i += 2; i < floor(sqrt(n))){
+        if(n % i == 0) return false;
+    }
+    // if exiting for loop, n is prime
+    
+    // true if congruent to 3 mod 4 AND THUS VALID, else false
+    return n % 4 == 3;
+}
+
 int main() {
 
     // Set the random number seed, set the file names, and get the load
@@ -53,6 +69,12 @@ int main() {
     int numStrings = numCommon + numEnglish16;
     string* allStrings = new string[numStrings];
     /* Rest of code omitted */
+    // calculate array size and initialize array
+    int arrSize = floor(numStrings / alpha);
+    
+    // find allowed table size
+    while(!validTableSize(arrSize)) arrSize--;
+
 
     // Close the file stream objects.
     inc.close();
@@ -63,6 +85,7 @@ int main() {
     // Make the hash table objects and then load them with the saved words.
     /* Code omitted */
     /* Code omitted */
+    // Constructor here with arrSize
 
     // Get the text file to analyze.
     string filename;
