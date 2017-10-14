@@ -10,6 +10,10 @@
 #include <cmath>
 #include <cassert>
 #include <string>
+#include <algorithm>
+#include <array>
+#include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -53,6 +57,25 @@ int main() {
     int numStrings = numCommon + numEnglish16;
     string* allStrings = new string[numStrings];
     /* Rest of code omitted */
+    for (int i = 0; i < numCommon; i++){
+    	inc >> allStrings[i];
+        if (inc.fail()) {
+            cerr << "Error: Cannot open " << commonWords << endl;
+            exit(1);
+        }
+    }
+
+    for (int i = 0; i < numEnglish16; i++){
+    	inj >> allStrings[i + numCommon];
+        if (inj.fail()) {
+            cerr << "Error: Cannot open " << junkWords << endl;
+            exit(1);
+        }
+    }
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+    shuffle (allStrings.begin(), allStrings.end(), std::default_random_engine(seed));
 
     // Close the file stream objects.
     inc.close();
@@ -62,6 +85,7 @@ int main() {
 
     // Make the hash table objects and then load them with the saved words.
     /* Code omitted */
+    HashTable table;
     /* Code omitted */
 
     // Get the text file to analyze.
@@ -79,6 +103,13 @@ int main() {
     // Make the BST object, then process the file to load the tree.
     BST wordtree;
     /* Code omitted */
+    string temp;
+    while(){
+    	in >> temp;
+
+    	wordtree::insert(temp);
+    }
+
 
     // Close the file stream object.
     in.close();
