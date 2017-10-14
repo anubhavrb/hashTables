@@ -18,21 +18,7 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
-// function for prime testing. used for calculating table size.
-bool validTableSize(int n){
-    
-    // base cases
-    if(n == 0 || n == 1) return false;
-    if(n % 2 == 0) return false;
-    
-    for(int i = 3; i += 2; i < floor(sqrt(n))){
-        if(n % i == 0) return false;
-    }
-    // if exiting for loop, n is prime
-    
-    // true if congruent to 3 mod 4 AND THUS VALID, else false
-    return n % 4 == 3;
-}
+bool validTableSize(int n);
 
 int main() {
 
@@ -69,11 +55,21 @@ int main() {
     int numStrings = numCommon + numEnglish16;
     string* allStrings = new string[numStrings];
     /* Rest of code omitted */
-    // calculate array size and initialize array
-    int arrSize = floor(numStrings / alpha);
+    for (int i = 0; i < numCommon; i++){
+        inc >> allStrings[i];
+        if (inc.fail()) {
+            cerr << "Error: Cannot open " << commonWords << endl;
+            exit(1);
+        }
+    }
     
-    // find allowed table size
-    while(!validTableSize(arrSize)) arrSize--;
+    for (int i = 0; i < numEnglish16; i++){
+        inj >> allStrings[i + numCommon];
+        if (inj.fail()) {
+            cerr << "Error: Cannot open " << junkWords << endl;
+            exit(1);
+        }
+    }
 
 
     // Close the file stream objects.
@@ -83,8 +79,10 @@ int main() {
     inj.clear();
 
     // Make the hash table objects and then load them with the saved words.
-    /* Code omitted */
-    /* Code omitted */
+    
+    // find allowed table size
+    int arrSize = floor(numStrings / alpha);
+    while(!validTableSize(arrSize)) arrSize--;
     // Constructor here with arrSize
 
     // Get the text file to analyze.
@@ -120,4 +118,20 @@ int main() {
 
     delete [] allStrings;
     return 0;
+}
+
+// function for prime testing. used for calculating table size.
+bool validTableSize(int n){
+    
+    // base cases
+    if(n == 0 || n == 1) return false;
+    if(n % 2 == 0) return false;
+    
+    for(int i = 3; i += 2; i < floor(sqrt(n))){
+        if(n % i == 0) return false;
+    }
+    // if exiting for loop, n is prime
+    
+    // true if congruent to 3 mod 4 AND THUS VALID, else false
+    return n % 4 == 3;
 }

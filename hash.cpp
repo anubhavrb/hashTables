@@ -19,8 +19,6 @@ HashTable::HashTable(int maxN, double load){
     numSuccess = 0;
     numFail = 0;
     
-
-    
     // initialize hash table array
     table = new string[maxN];
     for (int i = 0; i<arrSize; i++) table[i] = NULL;
@@ -29,6 +27,38 @@ HashTable::HashTable(int maxN, double load){
 // destructor
 HashTable::~HashTable(){
     delete[] table;
+}
+
+// general hash function
+void HashTable::hash(const string& s){
+    int h = primaryHash(s);
+    if (table[h] != NULL) {
+        initCollision();
+        int offset = collisionHandler();
+        while(table[h + offset]!=NULL){
+            offset = collisionHandler();
+        }
+    }
+    table[h + offset] = s;
+}
+
+// search for entry in table
+bool search(const string& s) {
+    
+    int h = primaryHash(s);
+    if (table[h] == s) return true;
+    else if (table[h] == NULL) return false;
+    initCollision();
+    int offset = collisonHandler();
+    
+    int iterations = 0;
+    while (iterations < arrSize) {
+        if (table[h + offset] == s) return true;
+        else if (table[h + offset] == NULL) return false;
+        offset = collisonHandler();
+        iterations++;
+    }
+    return false;
 }
 
 // primary hash function. uses horner evaluation on string to create has value
@@ -41,17 +71,6 @@ int HashTable::primaryHash(const string& s){
     for(int i = 0 ; i < s.length(); i++) h = (b * h + s[i]) % arrSize;
     
     return h;
-}
-
-// general hash function
-void HashTable::hash(const string& s){
-    initCollision();
-    int h = primaryHash(s);
-    int offset = 0;
-    while(table[h + offset]!=NULL){
-        offset = collisionHandler();
-    }
-    table[h + offset] = s;
 }
 
 // getter for number of search hits that occur on this talble
@@ -74,6 +93,6 @@ float HashTable::getAvgOnFail(){
     return numFail;
 }
 
-// calculates and returns actual load factor of table
+
 
 

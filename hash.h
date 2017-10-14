@@ -18,11 +18,12 @@ class HashTable{
   public:
     HashTable(int, double);
     ~HashTable();
-    void printStatistics();
-    int primaryHash(const string&);
     void hash(const string&);
+    bool search(const string&);
+    void printStatistics();
     
   protected:
+    int primaryHash(const string&);
     virtual void initCollision(){} = 0;
     virtual void collisionHandler(){} = 0;
 
