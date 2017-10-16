@@ -11,6 +11,8 @@
 		242E6D711F92AF3A0083B3A7 /* hash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 242E6D6E1F92AF3A0083B3A7 /* hash.cpp */; };
 		242E6D721F92AF3A0083B3A7 /* linearprobe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 242E6D6F1F92AF3A0083B3A7 /* linearprobe.cpp */; };
 		242E6D741F92AF690083B3A7 /* bst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 242E6D731F92AF690083B3A7 /* bst.cpp */; };
+		28C8EDBD1F9449510004483A /* quadraticprobe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28C8EDBB1F9449510004483A /* quadraticprobe.cpp */; };
+		28C8EDC01F944D740004483A /* doublehash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28C8EDBE1F944D740004483A /* doublehash.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +38,10 @@
 		242E6D731F92AF690083B3A7 /* bst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bst.cpp; path = ../../bst.cpp; sourceTree = "<group>"; };
 		242E6D771F92B2DC0083B3A7 /* common.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = common.txt; sourceTree = "<group>"; };
 		242E6D781F92B2DC0083B3A7 /* English16.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = English16.txt; sourceTree = "<group>"; };
+		28C8EDBB1F9449510004483A /* quadraticprobe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = quadraticprobe.cpp; sourceTree = "<group>"; };
+		28C8EDBC1F9449510004483A /* quadraticprobe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quadraticprobe.h; sourceTree = "<group>"; };
+		28C8EDBE1F944D740004483A /* doublehash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = doublehash.cpp; path = ../doublehash.cpp; sourceTree = "<group>"; };
+		28C8EDBF1F944D740004483A /* doublehash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = doublehash.h; path = ../doublehash.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,8 @@
 		242E6D621F92AEC80083B3A7 /* hashTables */ = {
 			isa = PBXGroup;
 			children = (
+				28C8EDBE1F944D740004483A /* doublehash.cpp */,
+				28C8EDBF1F944D740004483A /* doublehash.h */,
 				242E6D6C1F92AF240083B3A7 /* hash.h */,
 				242E6D6D1F92AF3A0083B3A7 /* bst.h */,
 				242E6D731F92AF690083B3A7 /* bst.cpp */,
@@ -77,6 +85,8 @@
 				242E6D6F1F92AF3A0083B3A7 /* linearprobe.cpp */,
 				242E6D701F92AF3A0083B3A7 /* linearprobe.h */,
 				242E6D6A1F92AEEA0083B3A7 /* words.cpp */,
+				28C8EDBB1F9449510004483A /* quadraticprobe.cpp */,
+				28C8EDBC1F9449510004483A /* quadraticprobe.h */,
 			);
 			path = hashTables;
 			sourceTree = "<group>";
@@ -138,10 +148,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28C8EDC01F944D740004483A /* doublehash.cpp in Sources */,
 				242E6D6B1F92AEEA0083B3A7 /* words.cpp in Sources */,
 				242E6D741F92AF690083B3A7 /* bst.cpp in Sources */,
 				242E6D721F92AF3A0083B3A7 /* linearprobe.cpp in Sources */,
 				242E6D711F92AF3A0083B3A7 /* hash.cpp in Sources */,
+				28C8EDBD1F9449510004483A /* quadraticprobe.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +282,7 @@
 				242E6D691F92AEC80083B3A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

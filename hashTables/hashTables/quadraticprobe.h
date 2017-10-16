@@ -6,9 +6,19 @@
 //  Copyright © 2017 Roy Bhattacharya, Anubhav. All rights reserved.
 //
 
-#ifndef quadraticprobe_hpp
-#define quadraticprobe_hpp
+#ifndef quadraticprobe_h
+#define quadraticprobe_h
 
-#include <stdio.h>
+#include "hash.h"
 
-#endif /* quadraticprobe_hpp */
+class QuadraticProbe : public HashTable {
+    public:
+        QuadraticProbe(int, double);
+    protected:
+        void initCollision(const string&);
+        int collisionHandler();
+    private:
+        int counter;
+};
+
+#endif /* quadraticprobe_h */
