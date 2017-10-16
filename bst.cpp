@@ -136,6 +136,7 @@ void BST::report(int t) const {
 // Precondition: p is not null, and the array has sufficient room.
 int BST::fill(int t, TNode** a, int k, TNode* p) const {
     // You need to write this.
+    return -1;
 }
 
 // Sort the elements of a by the values in the nodes they point to.
