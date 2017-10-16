@@ -91,7 +91,7 @@ bool HashTable::search(const string& s) {
             return false;
         }
         offset = collisionHandler();
-        numMisses++;
+        //numMisses++;
         probes++;
     }
     
@@ -106,17 +106,17 @@ int HashTable::getNumMisses(){ return numMisses; }
 
 // calculates and returns total # of probes on successful searches on this table
 float HashTable::getAvgOnSuccess(){
-    return static_cast<float>(numSuccess) / numHits;
+    return static_cast<float>(numSuccess) / static_cast<float>(numHits);
 }
 
 // calculates and returns total # of probes on failed searches on this table
 float HashTable::getAvgOnFail(){
-    return static_cast<float>(numFail) / numMisses;
+    return static_cast<float>(numFail) / static_cast<float>(numMisses);
 }
 
 // getter for actual table load factor
 float HashTable::getLoadFactor(){
-    return static_cast<float>(numElements) / arrSize;
+    return static_cast<float>(numElements) / static_cast<float>(arrSize);
 }
 
 // primary hash function. uses horner evaluation on string to create hash value

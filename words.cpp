@@ -25,7 +25,7 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
-const int WIDTH = 25;
+const int WIDTH = 22;
 
 bool validTableSize(int n);
 bool isInvalidPunct(const char& c);
@@ -99,6 +99,7 @@ int main() {
     // find allowed table size
     int arrSize = floor(numStrings / alpha);
     while(!validTableSize(arrSize)) arrSize--;
+    cout << "Table size M = " << arrSize;
     
     // initialize hash tables
     LinearProbe linear = LinearProbe(arrSize, alpha);
@@ -136,12 +137,15 @@ int main() {
     // parse input - each word is put in lower case, punctuation removed
     // TODO: deal with dashes and apostraphes
     string line;
+    bool linResult, quadResult, doubResult;
     while (in >> line) {
         transform(line.begin(), line.end(), line.begin(), ::tolower);
         line.erase(remove_if(line.begin(), line.end(), isInvalidPunct),
                    line.end());
-        
-        if ((!linear.search(line))&&(!quad.search(line))&&(!doub.search(line))){
+        linResult = linear.search(line);
+        quadResult = quad.search(line);
+        doubResult = doub.search(line);
+        if (!linResult && !quadResult && !doubResult){
             wordtree.insert(line);
         }
     }
@@ -163,15 +167,15 @@ int main() {
     /* Code INCOMPLETE */
     
     cout << "Hash Table Performance Statitics: " << endl;
-    printTitle("Collision Handling", "# of Hits", "Avg. Probes/Miss",
-               "Predicted Probes/Miss", "# of Misses", "Avg. Probes/Miss",
+    printTitle("Collision Handling", "# of Hits", "Avg. Probes/Hit",
+               "Predicted Probes/Hit", "# of Misses", "Avg. Probes/Miss",
                "Predicted Probes/Miss", "Actual Load");
     printRow("Linear Probing", linear.getNumHits(), linear.getAvgOnSuccess(),
              0.5 * (1 + (1 / (1 - alpha))), linear.getNumMisses(),
             linear.getAvgOnFail(), 0.5 * (1 + (1 / pow((1 - alpha), 2))),
              linear.getLoadFactor());
-    printRow("Quadratic Probing", quad.getNumHits(), quad.getAvgOnSuccess(),0.0,
-             quad.getNumMisses(), quad.getAvgOnFail(), 0.0,
+    printRow("Quadratic Probing", quad.getNumHits(), quad.getAvgOnSuccess(),
+             NULL, quad.getNumMisses(), quad.getAvgOnFail(), NULL,
              quad.getLoadFactor());
     printRow("Double Hashing", doub.getNumHits(), doub.getAvgOnSuccess(),
              (1 / alpha) * log(1 / (1 - alpha)), doub.getNumMisses(),
