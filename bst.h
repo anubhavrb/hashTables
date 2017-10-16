@@ -50,6 +50,7 @@ class BST {
         TNode* left;
         TNode* right;
         TNode(const string& w) : word(w), count(1), left(0), right(0) {}
+        int compareTo(const TNode*);
     };
 
     TNode* root;

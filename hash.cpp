@@ -15,7 +15,6 @@
 HashTable::HashTable(int maxN, double load){
     
     // assign class variables
-    curIndex = 0;
     numHits = 0;
     numMisses = 0;
     numSuccess = 0;

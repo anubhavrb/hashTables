@@ -21,6 +21,18 @@ BST::~BST() {
     if (root) kill(root);
 }
 
+// Function to compare two TNodes, first by count, then by word
+// MAYBE DOESN'T WORK MAYBE
+int BST::TNode::compareTo(const TNode* other) {
+    if (this->count > other->count) return 1;
+    else if (this->count < other->count) return -1;
+    else {
+        if (this->word.compare(other->word) > 0) return 1;
+        else if (this->word.compare(other->word) < 0) return -1;
+        else return 0;
+    }
+}
+
 void BST::insert(const string& w) {
     // Call a private function to do the insertion, starting at the root.
     insert(root, w);
