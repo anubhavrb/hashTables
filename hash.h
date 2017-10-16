@@ -44,6 +44,7 @@ class HashTable{
     int numMisses;  // total # of search misses that occur on this table
     int numSuccess; // total # of probes on successful searches on this table
     int numFail;    // total # of probes on failed searches on this table
+    int numElements;// number of elements in table.
 };
 
 #endif /* hashTable_h */

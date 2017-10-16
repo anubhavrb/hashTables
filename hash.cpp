@@ -49,7 +49,8 @@ bool HashTable::hash(const string& s){
         }
     }
     if (probes < arrSize){
-        table[(h + offset) % arrSize] = s; // store string
+        table[(h + offset) % arrSize] = s;  // store string
+        numElements++;                      // increment stored elements count
         return true;
     } else {
         return false;
@@ -111,6 +112,11 @@ float HashTable::getAvgOnSuccess(){
 // calculates and returns total # of probes on failed searches on this table
 float HashTable::getAvgOnFail(){
     return static_cast<float>(numFail) / numMisses;
+}
+
+// getter for actual table load factor
+float HashTable::getLoadFactor(){
+    return static_cast<float>(numElements) / arrSize;
 }
 
 // primary hash function. uses horner evaluation on string to create hash value

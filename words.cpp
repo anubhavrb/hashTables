@@ -25,16 +25,18 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
-const int WIDTH = 15;
+const int WIDTH = 25;
 
 bool validTableSize(int n);
 bool isInvalidPunct(const char& c);
 template<typename T> void printElement(T t);
-void printTitle(const string& name, const string& hits, const string& avgHits,
-                const string& misses, const string& avgMisses,
-                const string& predAlpha, const string& actAlpha);
-void printRow(const string& name, int hits, float avgHits, int misses,
-              float avgMisses, int predAlpha, int actAlpha);
+void printTitle(const string& name, const string& hits,
+                const string& actAvgHits, const string& predAvgHits,
+                const string& misses, const string& actAvgMisses,
+                const string& predAvgMissess,
+                const string& actAlpha);
+void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
+              int misses, float actAvgMisses, float predAvgMisses, int actAlpha);
 
 int main() {
 
@@ -158,20 +160,25 @@ int main() {
     wordtree.report(thresh);
 
     // Now get the statistics from the hash table and print this report.
-    /* Code omitted */
+    /* Code INCOMPLETE */
     
     cout << "Hash Table Performance Statitics: " << endl;
     printTitle("Collision Handling", "# of Hits", "Avg. Probes/Miss",
-               "# of Misses", "Avg. Probes/Miss", "Predicted Load",
-               "Actual Load");
+               "Predicted Probes/Miss", "# of Misses", "Avg. Probes/Miss",
+               "Predicted Probes/Miss", "Actual Load");
     printRow("Linear Probing", linear.getNumHits(), linear.getAvgOnSuccess(),
-             linear.getNumMisses(), linear.getAvgOnFail(), <#int predAlpha#>, <#int actAlpha#>);
-    printRow("Quadratic Probing", quad.getNumHits(), quad.getAvgOnSuccess(),
-             quad.getNumMisses(), quad.getAvgOnFail(), <#int predAlpha#>, <#int actAlpha#>);
+             0.5 * (1 + (1 / (1 - alpha))), linear.getNumMisses(),
+            linear.getAvgOnFail(), 0.5 * (1 + (1 / pow((1 - alpha), 2))),
+             linear.getLoadFactor());
+    printRow("Quadratic Probing", quad.getNumHits(), quad.getAvgOnSuccess(),0.0,
+             quad.getNumMisses(), quad.getAvgOnFail(), 0.0,
+             quad.getLoadFactor());
     printRow("Double Hashing", doub.getNumHits(), doub.getAvgOnSuccess(),
-             doub.getNumMisses(), doub.getAvgOnFail(), <#int predAlpha#>, <#int actAlpha#>);
+             (1 / alpha) * log(1 / (1 - alpha)), doub.getNumMisses(),
+             doub.getAvgOnFail(), 1 / (1 - alpha), doub.getLoadFactor());
 
-    delete [] allStrings;
+    delete [] allStrings; // clean up
+    
     return 0;
 }
 
@@ -205,28 +212,33 @@ template<typename T> void printElement(T t) {
 }
 
 // Function to print a table row prettified
-void printTitle(const string& name, const string& hits, const string& avgHits,
-                const string& misses, const string& avgMisses,
-                const string& predAlpha, const string& actAlpha) {
+void printTitle(const string& name, const string& hits,
+                const string& actAvgHits, const string& predAvgHits,
+                const string& misses, const string& actAvgMisses,
+                const string& predAvgMissess,
+                const string& actAlpha) {
     printElement(name);
     printElement(hits);
-    printElement(avgHits);
+    printElement(actAvgHits);
+    printElement(predAvgHits);
     printElement(misses);
-    printElement(avgMisses);
-    printElement(predAlpha);
+    printElement(actAvgMisses);
+    printElement(predAvgMissess);
     printElement(actAlpha);
     cout << endl;
 }
 
 // Function to print a table row prettified
-void printRow(const string& name, int hits, float avgHits, int misses,
-              float avgMisses, int predAlpha, int actAlpha) {
+void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
+              int misses, float actAvgMisses, float predAvgMisses, int actAlpha)
+{
     printElement(name);
     printElement(hits);
-    printElement(avgHits);
+    printElement(actAvgHits);
+    printElement(predAvgHits);
     printElement(misses);
-    printElement(avgMisses);
-    printElement(predAlpha);
+    printElement(actAvgMisses);
+    printElement(predAvgMisses);
     printElement(actAlpha);
     cout << endl;
 }
