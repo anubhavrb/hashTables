@@ -12,12 +12,15 @@
 
 #include "linearprobe.h"
 
+// constructor - call base class constructor
 LinearProbe::LinearProbe(int maxN, double load) : HashTable(maxN, load) {}
 
+// collision handler initialization
 void LinearProbe::initCollision(const string& s) {
-    v2 = 0;
+    counter = 0; // reset counter
 }
 
+// collision handler - determines which table slot to probe next
 int LinearProbe::collisionHandler() {
-    return ++v2;
+    return ++counter;
 }

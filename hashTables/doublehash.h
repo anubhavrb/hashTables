@@ -16,14 +16,16 @@
 #include "hash.h"
 
 class DoubleHash : public HashTable {
-public:
+    
+  public:
     DoubleHash(int, double);
-protected:
+    
+  protected:
     void initCollision(const string&);
     int collisionHandler();
-private:
-    int counter;
-    int v2;
+    
+  private:
+    int hashVal;
     int h2(const string&);
 };
 

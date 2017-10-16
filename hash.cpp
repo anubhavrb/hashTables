@@ -20,11 +20,12 @@ HashTable::HashTable(int maxN, double load){
     numMisses = 0;
     numSuccess = 0;
     numFail = 0;
+    arrSize = maxN;
     
     // initialize hash table array
-    table = new string[maxN];
-    arrSize = maxN;
-    for (int i = 0; i< arrSize; i++) table[i] = "";
+    table = new string[arrSize];
+    
+    for (int i = 0; i< arrSize; i++) table[i] = ""; // intialize empty array
 }
 
 // destructor
@@ -34,16 +35,19 @@ HashTable::~HashTable(){
 
 // general hash function
 void HashTable::hash(const string& s){
+    
     int h = primaryHash(s);
     int offset = 0;
-    if (table[h].compare("") != 0) {
+    
+    if (table[h].compare("") != 0) { // start collision handling if necessary
         initCollision(s);
         offset = collisionHandler();
         while(table[(h + offset) % arrSize] != ""){
             offset = collisionHandler();
         }
     }
-    table[(h + offset) % arrSize] = s;
+    
+    table[(h + offset) % arrSize] = s; // store string
 }
 
 // search for entry in table
@@ -52,11 +56,11 @@ bool HashTable::search(const string& s) {
     int h = primaryHash(s);
     if (table[h] == s) return true;
     else if (table[h] == "") return false;
-    initCollision(s);
+    initCollision(s); // start collision handling if necessary
     int offset = collisionHandler();
     
     int iterations = 0;
-    while (iterations < arrSize) {
+    while (iterations < arrSize) { // limit search to size of hash table
         if (table[(h + offset) % arrSize] == s) return true;
         else if (table[(h + offset) % arrSize] == "") return false;
         offset = collisionHandler();
