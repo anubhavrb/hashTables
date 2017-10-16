@@ -139,7 +139,8 @@ void BST::report(int t) const {
     if (root) {
         int num = count(t);
         TNode** a = new TNode*[num];
-        fill(t, a, 0, root);
+        int k = 0;
+        fill(t, a, k, root);
         sort(a, 0, num-1);
         for (int i=0; i<num; i++) {
             cout << a[i]->word << " " << a[i]->count << endl;
@@ -153,7 +154,7 @@ void BST::report(int t) const {
 // Fill the array a with pointers in the subtree rooted at p beginning at
 // index k in the array a.
 // Precondition: p is not null, and the array has sufficient room.
-void BST::fill(int t, TNode** a, int k, TNode* p) const {
+void BST::fill(int t, TNode** a, int& k, TNode* p) const {
     if (p == NULL) return;
     if (p->count >= t) {
         a[k] = p;
