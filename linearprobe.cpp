@@ -5,7 +5,7 @@
 
 LinearProbe::LinearProbe(int maxN, double load) : HashTable(maxN, load) {}
 
-void LinearProbe::initCollision(const string& s) {
+void LinearProbe::initCollision() {
     v2 = 0;
 }
 

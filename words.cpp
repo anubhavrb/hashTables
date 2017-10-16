@@ -14,9 +14,9 @@
 using namespace std;
 
 #include "bst.h"
-/*#include "doublehash.h"
+//#include "doublehash.h"
 #include "linearprobe.h"
-#include "quadraticprobe.h"*/
+//#include "quadraticprobe.h"
 
 bool validTableSize(int n);
 
@@ -78,7 +78,7 @@ int main() {
         swap(allStrings[i], allStrings[static_cast<int>(drand48() * i)]);
     }
     
-    for (int i = 0; i < 20; i++) cout << allStrings[i] << endl;
+    //for (int i = 0; i < 20; i++) cout << allStrings[i] << endl;
 
 
     // Close the file stream objects.
@@ -93,7 +93,14 @@ int main() {
     int arrSize = floor(numStrings / alpha);
     while(!validTableSize(arrSize)) arrSize--;
     // Constructor here with arrSize
-
+    LinearProbe linear = LinearProbe(arrSize, alpha);
+    for (int i = 0; i < numStrings; i++){
+        linear.hash(allStrings[i]);
+        //do the same thing for quad and double
+    }
+    cout << linear.search("a") << endl;
+    cout << linear.search("Davidson") << endl;
+    
     // Get the text file to analyze.
     string filename;
     cout << "\nEnter name of file with the text to analyze: ";
@@ -136,7 +143,8 @@ bool validTableSize(int n){
     if(n == 0 || n == 1) return false;
     if(n % 2 == 0) return false;
     
-    for(int i = 3; i += 2; i < floor(sqrt(n))){
+    for(int i = 3; i < floor(sqrt(n)); i += 2){
+        //cout << i <<endl;
         if(n % i == 0) return false;
     }
     // if exiting for loop, n is prime

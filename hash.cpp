@@ -21,6 +21,7 @@ HashTable::HashTable(int maxN, double load){
     
     // initialize hash table array
     table = new string[maxN];
+    arrSize = maxN;
     for (int i = 0; i<arrSize; i++) table[i] = "";
 }
 
@@ -33,7 +34,7 @@ HashTable::~HashTable(){
 void HashTable::hash(const string& s){
     int h = primaryHash(s);
     int offset = 0;
-    if (table[h] != "") {
+    if (table[h].compare("") != 0) {
         initCollision();
         offset = collisionHandler();
         while(table[h + offset] != ""){

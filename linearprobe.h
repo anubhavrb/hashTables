@@ -10,7 +10,7 @@ class LinearProbe : public HashTable {
   public:
     LinearProbe(int, double);
   protected:
-    void initCollision(const string&);
+    void initCollision();
     int collisionHandler();
   private:
     int v2;
