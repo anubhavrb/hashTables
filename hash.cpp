@@ -53,18 +53,39 @@ void HashTable::hash(const string& s){
 bool HashTable::search(const string& s) {
     
     int h = primaryHash(s);
-    if (table[h] == s) return true;
-    else if (table[h] == "") return false;
+    int probes = 0;
+    
+    // first probes at initial hash location
+    if (table[h] == s){
+        numHits++;
+        numSuccess += probes + 1;
+        return true;
+    }
+    else if (table[h] == ""){
+        numMisses++;
+        numFail += probes + 1;
+        return false;
+    }
     initCollision(s); // start collision handling if necessary
     int offset = collisionHandler();
     
-    int iterations = 0;
-    while (iterations < arrSize) { // limit search to size of hash table
-        if (table[(h + offset) % arrSize] == s) return true;
-        else if (table[(h + offset) % arrSize] == "") return false;
+    // find allowed location using collision handler
+    while (probes < arrSize) { // limit search to size of hash table
+        if (table[(h + offset) % arrSize] == s){
+            numHits++;
+            numSuccess += probes + 1;
+            return true;
+        }
+        else if (table[(h + offset) % arrSize] == ""){
+            numMisses++;
+            numFail += probes + 1;
+            return false;
+        }
         offset = collisionHandler();
-        iterations++;
+        numMisses++;
+        probes++;
     }
+    
     return false;
 }
 
