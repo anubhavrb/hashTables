@@ -1,7 +1,7 @@
 // CSC 321 Fall 2017 Mossinghoff
 // Program 2: Nonundergraduate Zarathustrianism
 // Outline of client code
-// Your names here!
+// Anubhav Roy Bhattacharya, Collin Epstein, Harry Zhou
 
 #include <iostream>
 #include <fstream>
@@ -58,19 +58,11 @@ int main() {
     // Load common words into array
     for (int i = 0; i < numCommon; i++){
         inc >> allStrings[i];
-        if (inc.fail()) {
-            cerr << "Error: Cannot open " << commonWords << endl;
-            exit(1);
-        }
     }
     
     // Load long words into array
     for (int i = 0; i < numEnglish16; i++){
         inj >> allStrings[i + numCommon];
-        if (inj.fail()) {
-            cerr << "Error: Cannot open " << junkWords << endl;
-            exit(1);
-        }
     }
     
     // Shuffle array elements

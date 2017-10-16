@@ -49,7 +49,7 @@ int BST::remove(const string& w, TNode*& p) {
         // Either p is a leaf, or p has a left child but no right child.
         p = p->left;
     } else if (p->left == NULL) {
-        // p has a right child but no right child.
+        // p has a right child but no left child.
         p = p->right;
     } else {
         // p has both a left and a right child.  Use improved "copy"
@@ -135,8 +135,25 @@ void BST::report(int t) const {
 // index k in the array a.
 // Precondition: p is not null, and the array has sufficient room.
 int BST::fill(int t, TNode** a, int k, TNode* p) const {
-    // You need to write this.
+    if (p != NULL) {
+        int c = count(t, p);
+        // TODO: Check if array has sufficient room using c
+        fillHelper(t, a, k, p);
+        return 1;
+    }
     return -1;
+}
+
+// Auxiliary helper function to fill array a with pointers in the subtree
+// rooted at p beginning at index k if count >= t.
+void BST::fillHelper(int t, TNode** a, int k, TNode* p) const {
+    if (p == NULL) return;
+    if (p->count >= t) {
+        a[k] = p;
+        k++;
+    }
+    fillHelper(t, a, k, p->left);
+    fillHelper(t, a, k, p->right);
 }
 
 // Sort the elements of a by the values in the nodes they point to.

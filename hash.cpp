@@ -22,7 +22,7 @@ HashTable::HashTable(int maxN, double load){
     // initialize hash table array
     table = new string[maxN];
     arrSize = maxN;
-    for (int i = 0; i<arrSize; i++) table[i] = "";
+    for (int i = 0; i< arrSize; i++) table[i] = "";
 }
 
 // destructor
@@ -63,7 +63,7 @@ bool HashTable::search(const string& s) {
     return false;
 }
 
-// primary hash function. uses horner evaluation on string to create has value
+// primary hash function. uses horner evaluation on string to create hash value
 int HashTable::primaryHash(const string& s){
     
     int h = 0;
