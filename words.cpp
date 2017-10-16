@@ -16,6 +16,7 @@
 #include <cmath>
 #include <cassert>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -24,11 +25,16 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
-bool validTableSize(int n);
+const int WIDTH = 15;
 
-bool isInvalidPunct(const char& c) {
-    return ispunct(c) && c != '\'';
-}
+bool validTableSize(int n);
+bool isInvalidPunct(const char& c);
+template<typename T> void printElement(T t);
+void printTitle(const string& name, const string& hits, const string& avgHits,
+                const string& misses, const string& avgMisses,
+                const string& predAlpha, const string& actAlpha);
+void printRow(const string& name, int hits, float avgHits, int misses,
+              float avgMisses, int predAlpha, int actAlpha);
 
 int main() {
 
@@ -98,11 +104,16 @@ int main() {
     DoubleHash doub = DoubleHash(arrSize, alpha);
     
     // fill hash tables
+    bool flag = true;
     for (int i = 0; i < numStrings; i++){
-        linear.hash(allStrings[i]);
-        quad.hash(allStrings[i]);
-        doub.hash(allStrings[i]);
-
+        flag = flag && linear.hash(allStrings[i]);
+        flag = flag && quad.hash(allStrings[i]);
+        flag = flag && doub.hash(allStrings[i]);
+        if(!flag){
+            cout << "Unable to enter " << allStrings[i] << " into the tables."
+                << endl;
+            exit(1);
+        }
     }
 
     // Get the text file to analyze.
@@ -120,12 +131,15 @@ int main() {
     // Make the BST object, then process the file to load the tree.
     BST wordtree;
     
+    // parse input - each word is put in lower case, punctuation removed
+    // TODO: deal with dashes and apostraphes
     string line;
     while (in >> line) {
         transform(line.begin(), line.end(), line.begin(), ::tolower);
-        line.erase(remove_if(line.begin(), line.end(), isInvalidPunct), line.end());
+        line.erase(remove_if(line.begin(), line.end(), isInvalidPunct),
+                   line.end());
         
-        if ((!linear.search(line))&&(!quad.search(line))&&(!doub.search(line))) {
+        if ((!linear.search(line))&&(!quad.search(line))&&(!doub.search(line))){
             wordtree.insert(line);
         }
     }
@@ -145,6 +159,17 @@ int main() {
 
     // Now get the statistics from the hash table and print this report.
     /* Code omitted */
+    
+    cout << "Hash Table Performance Statitics: " << endl;
+    printTitle("Collision Handling", "# of Hits", "Avg. Probes/Miss",
+               "# of Misses", "Avg. Probes/Miss", "Predicted Load",
+               "Actual Load");
+    printRow("Linear Probing", linear.getNumHits(), linear.getAvgOnSuccess(),
+             linear.getNumMisses(), linear.getAvgOnFail(), <#int predAlpha#>, <#int actAlpha#>);
+    printRow("Quadratic Probing", quad.getNumHits(), quad.getAvgOnSuccess(),
+             quad.getNumMisses(), quad.getAvgOnFail(), <#int predAlpha#>, <#int actAlpha#>);
+    printRow("Double Hashing", doub.getNumHits(), doub.getAvgOnSuccess(),
+             doub.getNumMisses(), doub.getAvgOnFail(), <#int predAlpha#>, <#int actAlpha#>);
 
     delete [] allStrings;
     return 0;
@@ -165,4 +190,43 @@ bool validTableSize(int n){
     
     // true if congruent to 3 mod 4 AND THUS VALID, else false
     return n % 4 == 3;
+}
+
+// checks whether a character is invalid for our purposes
+// invalid characters = all punctuation except apostraphes (')
+bool isInvalidPunct(const char& c) {
+    return ispunct(c) && c != '\'';
+    
+}
+
+// Function to pretty print a table
+template<typename T> void printElement(T t) {
+    cout << left << setw(WIDTH) << setfill(' ') << t;
+}
+
+// Function to print a table row prettified
+void printTitle(const string& name, const string& hits, const string& avgHits,
+                const string& misses, const string& avgMisses,
+                const string& predAlpha, const string& actAlpha) {
+    printElement(name);
+    printElement(hits);
+    printElement(avgHits);
+    printElement(misses);
+    printElement(avgMisses);
+    printElement(predAlpha);
+    printElement(actAlpha);
+    cout << endl;
+}
+
+// Function to print a table row prettified
+void printRow(const string& name, int hits, float avgHits, int misses,
+              float avgMisses, int predAlpha, int actAlpha) {
+    printElement(name);
+    printElement(hits);
+    printElement(avgHits);
+    printElement(misses);
+    printElement(avgMisses);
+    printElement(predAlpha);
+    printElement(actAlpha);
+    cout << endl;
 }

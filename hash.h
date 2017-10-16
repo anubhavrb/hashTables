@@ -22,9 +22,14 @@ class HashTable{
   public:
     HashTable(int, double);
     ~HashTable();
-    void hash(const string&);
+    bool hash(const string&);
     bool search(const string&);
     void printStatistics();
+    int getNumHits();
+    int getNumMisses();
+    float getAvgOnSuccess();
+    float getAvgOnFail();
+    float getLoadFactor();
     
   protected:
     int arrSize;
@@ -39,12 +44,6 @@ class HashTable{
     int numMisses;  // total # of search misses that occur on this table
     int numSuccess; // total # of probes on successful searches on this table
     int numFail;    // total # of probes on failed searches on this table
-    
-    int getNumHits();
-    int getNumMisses();
-    float getAvgOnSuccess();
-    float getAvgOnFail();
-    float getLoadFactor();
 };
 
 #endif /* hashTable_h */
