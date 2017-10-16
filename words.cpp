@@ -1,7 +1,13 @@
+////////////////////////////////////////////////////////////////////////////////
+// words.cpp
+//
 // CSC 321 Fall 2017 Mossinghoff
 // Program 2: Nonundergraduate Zarathustrianism
-// Outline of client code
+//
+// Outline of client code. Adapted from supplied code
 // Anubhav Roy Bhattacharya, Collin Epstein, Harry Zhou
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <fstream>

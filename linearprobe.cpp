@@ -1,5 +1,14 @@
-// CSC 321 Analysis of Algorithms
-// Fall 2017 Mossinghoff
+////////////////////////////////////////////////////////////////////////////////
+// linearprobe.cpp
+//
+// CSC 321 Fall 2017 Mossinghoff
+// Program 2: Nonundergraduate Zarathustrianism
+//
+// Implementation file for hash table using linear probing collision handling.
+// Implements hash table virtual base class. Adapted from supplied code.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
 
 #include "linearprobe.h"
 

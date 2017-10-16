@@ -1,6 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// bst.h
+//
 // Binary search tree class: header file
-// CSC 321 Fall 2017
-// M. Mossinghoff
+// CSC 321 Fall 2017 M. Mossinghoff
+//
+// Header file for binary search tree class used to store and count relevant
+// words from text files. Adapted from supplied code.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
+
 
 #ifndef bst_h
 #define bst_h

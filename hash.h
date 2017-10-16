@@ -1,10 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
-//  hash.h
-//  
-//  Header file for hash table base class. Defines hash table behavior.
-//  Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// hash.h
 //
-//  10/16/17
+// CSC 321 Fall 2017 Mossinghoff
+// Program 2: Nonundergraduate Zarathustrianism
+//
+// Header file for hash table base class. Defines hash table behavior.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef hashTable_h

@@ -1,10 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// quadraticprobe.cpp
 //
-//  quadraticprobe.cpp
-//  hashTables
+// CSC 321 Fall 2017 Mossinghoff
+// Program 2: Nonundergraduate Zarathustrianism
 //
-//  Created by Zhou, Harry on 10/15/17.
-//  Copyright © 2017 Roy Bhattacharya, Anubhav. All rights reserved.
-//
+// Implementation file for hash table using quadratic probing collision handling
+// Implements hash table virtual base class.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
+
 
 #include "quadraticprobe.h"
 

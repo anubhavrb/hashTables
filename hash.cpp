@@ -1,10 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
-//  hash.cpp
+// hash.cpp
 //
-//  Implementation file for hash table base class. Defines hash table behavior.
-//  Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// CSC 321 Fall 2017 Mossinghoff
+// Program 2: Nonundergraduate Zarathustrianism
 //
-//  10/16/17
+// Implementation file for hash table base class. Defines hash table behavior.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "hash.h"
