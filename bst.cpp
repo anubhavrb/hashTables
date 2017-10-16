@@ -179,7 +179,33 @@ void BST::fillHelper(int t, TNode** a, int k, TNode* p) const {
 // Sort the elements of a by the values in the nodes they point to.
 // Sort by count, in descending order, and break ties by using alphabetical
 // order.  This must be O(n log(n)).
+// Using quick sort.
 void BST::sort(TNode** a, int first, int last) {
-    // You need to write this.
+    if (first < last) {
+        int q = partition(a, first, last);
+        sort(a, first, q - 1);
+        sort(a, q + 1, last);
+    }
 }
 
+// Hoare partitioning in descending order by count
+// DEBUG THIS IF PROBLEMS
+int BST::partition(TNode** a, int first, int last) {
+    int i = first, j = last - 1;
+    while (i <= j) {
+        while (a[i]->compareTo(a[j]) > 0) {
+            i++;
+        }
+        while ((i <= j) && (a[j]->compareTo(a[last])) <= 0) {
+            j--;
+        }
+        
+        if (i < j) {
+            swap(a[i], a[j]);
+            i++;
+            j--;
+        }
+    }
+    swap(a[i], a[last]);
+    return i;
+}

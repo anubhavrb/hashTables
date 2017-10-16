@@ -67,6 +67,7 @@ class BST {
 
     // Static auxilliary methods.
     static void sort(TNode**, int, int);
+    static int partition(TNode**, int, int);
 
     // Disable copy constructor and assignment operator.
     BST(const BST&);
