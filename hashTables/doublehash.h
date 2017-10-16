@@ -1,31 +1,32 @@
 ////////////////////////////////////////////////////////////////////////////////
-// linearprobe.ch
+// doublehash.c
 //
 // CSC 321 Fall 2017 Mossinghoff
 // Program 2: Nonundergraduate Zarathustrianism
 //
-// Implementation file for hash table using linear probing collision handling.
-// Implements hash table virtual base class. Adapted from supplied code.
+// Header file for hash table using double hashing collision handling.
+// Implements hash table virtual base class.
 // Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
 // 10/16/17
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef linearprobe_h
-#define linearprobe_h
+#ifndef doublehash_h
+#define doublehash_h
 
 #include "hash.h"
 
-class LinearProbe : public HashTable {
+class DoubleHash : public HashTable {
     
   public:
-    LinearProbe(int, double);
+    DoubleHash(int, double);
     
   protected:
     void initCollision(const string&);
     int collisionHandler();
     
   private:
-    
+    int hashVal;
+    int h2(const string&);
 };
 
-#endif
+#endif /* doublehash_h */

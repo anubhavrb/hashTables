@@ -1,7 +1,13 @@
-0// CSC 321 Fall 2017 Mossinghoff
+////////////////////////////////////////////////////////////////////////////////
+// words.cpp
+//
+// CSC 321 Fall 2017 Mossinghoff
 // Program 2: Nonundergraduate Zarathustrianism
-// Outline of client code
-// Your names here!
+//
+// Outline of client code. Adapted from supplied code
+// Anubhav Roy Bhattacharya, Collin Epstein, Harry Zhou
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <fstream>
@@ -17,6 +23,8 @@ using namespace std;
 #include "doublehash.h"
 #include "linearprobe.h"
 #include "quadraticprobe.h"
+
+bool validTableSize(int n);
 
 int main() {
 
@@ -52,7 +60,21 @@ int main() {
     // Make an array for all the words, load it, then shuffle the entries.
     int numStrings = numCommon + numEnglish16;
     string* allStrings = new string[numStrings];
-    /* Rest of code omitted */
+
+    // Load common words into array
+    for (int i = 0; i < numCommon; i++){
+        inc >> allStrings[i];
+    }
+    
+    // Load long words into array
+    for (int i = 0; i < numEnglish16; i++){
+        inj >> allStrings[i + numCommon];
+    }
+    
+    // Shuffle array elements
+    for (int i = numStrings - 1; i >= 0; i--) {
+        swap(allStrings[i], allStrings[static_cast<int>(drand48() * i)]);
+    }
 
     // Close the file stream objects.
     inc.close();
@@ -61,9 +83,33 @@ int main() {
     inj.clear();
 
     // Make the hash table objects and then load them with the saved words.
-    /* Code omitted */
-    /* Code omitted */
+    
+    // find allowed table size
+    int arrSize = floor(numStrings / alpha);
+    while(!validTableSize(arrSize)) arrSize--;
+    
+    // initialize hash tables
+    LinearProbe linear = LinearProbe(arrSize, alpha);
+    QuadraticProbe quad = QuadraticProbe(arrSize, alpha);
+    DoubleHash doub = DoubleHash(arrSize, alpha);
+    
+    // fill hash tables
+    for (int i = 0; i < numStrings; i++){
+        linear.hash(allStrings[i]);
+        quad.hash(allStrings[i]);
+        doub.hash(allStrings[i]);
 
+    }
+    
+    // test suite
+    cout << linear.search("a") << endl;
+    cout << linear.search("Davidson") << endl;
+    cout << quad.search("a") << endl;
+    cout << quad.search("Davidson") << endl;
+    cout << doub.search("a") << endl;
+    cout << doub.search("Davidson") << endl;
+     
+    
     // Get the text file to analyze.
     string filename;
     cout << "\nEnter name of file with the text to analyze: ";
@@ -80,6 +126,12 @@ int main() {
     BST wordtree;
     /* Code omitted */
 
+    // Dummy array to test sort method of bst
+    string test[10] = {"hello", "hello", "cat", "hello", "hello", "cat", "couch", "couch", "zoo", "umbrella"};
+    for (int i = 0; i < 10; i++) {
+        wordtree.insert(test[i]);
+    }
+
     // Close the file stream object.
     in.close();
     in.clear();
@@ -90,6 +142,7 @@ int main() {
     cout << "\nEnter count threshold: ";
     cin >> thresh;
     cout << "Analyzing the text...\n";
+    //cout << wordtree << endl;
     wordtree.report(thresh);
 
     // Now get the statistics from the hash table and print this report.
@@ -97,4 +150,21 @@ int main() {
 
     delete [] allStrings;
     return 0;
+}
+
+// function to calculate table size and choose largest allowed prime size
+bool validTableSize(int n){
+    
+    // base cases
+    if(n == 0 || n == 1) return false;
+    if(n % 2 == 0) return false;
+    
+    for(int i = 3; i < floor(sqrt(n)); i += 2){
+        //cout << i <<endl;
+        if(n % i == 0) return false;
+    }
+    // if exiting for loop, n is prime
+    
+    // true if congruent to 3 mod 4 AND THUS VALID, else false
+    return n % 4 == 3;
 }
