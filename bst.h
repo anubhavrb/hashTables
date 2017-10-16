@@ -62,8 +62,7 @@ class BST {
     int count(int, TNode*) const;
     void kill(TNode*);
     void print(ostream&, TNode*) const;
-    int fill(int, TNode**, int, TNode*) const;
-    void fillHelper(int, TNode**, int&, TNode*) const;
+    void fill(int, TNode**, int&, TNode*) const;
 
     // Static auxilliary methods.
     static void sort(TNode**, int, int);

@@ -24,29 +24,12 @@ BST::~BST() {
 // Function to compare two TNodes, first by count, then by word
 // MAYBE DOESN'T WORK MAYBE
 int BST::TNode::compareTo(const TNode* other) {
-<<<<<<< HEAD
-    
-    /*
-=======
->>>>>>> 06525e3f30c1bdae16d667c85644fed9ff613ca0
-    if (this->count > other->count) return 1;
-    else if (this->count < other->count) return -1;
-    else {
-        if (this->word.compare(other->word) > 0) return 1;
-        else if (this->word.compare(other->word) < 0) return -1;
-        else return 0;
-    }
-<<<<<<< HEAD
-     */
-    
     int dif = this->count - other->count;
     if(dif == 0){
         dif = -1*this->word.compare(other->word);
     }
     
     return dif;
-=======
->>>>>>> 06525e3f30c1bdae16d667c85644fed9ff613ca0
 }
 
 void BST::insert(const string& w) {
@@ -156,7 +139,8 @@ void BST::report(int t) const {
     if (root) {
         int num = count(t);
         TNode** a = new TNode*[num];
-        fill(t, a, 0, root);
+        int k = 0;
+        fill(t, a, k, root);
         sort(a, 0, num-1);
         for (int i=0; i<num; i++) {
             cout << a[i]->word << " " << a[i]->count << endl;
@@ -170,26 +154,14 @@ void BST::report(int t) const {
 // Fill the array a with pointers in the subtree rooted at p beginning at
 // index k in the array a.
 // Precondition: p is not null, and the array has sufficient room.
-int BST::fill(int t, TNode** a, int k, TNode* p) const {
-    if (p != NULL) {
-        int c = count(t, p);
-        // TODO: Check if array has sufficient room using c
-        fillHelper(t, a, k, p);
-        return 1;
-    }
-    return -1;
-}
-
-// Auxiliary helper function to fill array a with pointers in the subtree
-// rooted at p beginning at index k if count >= t.
-void BST::fillHelper(int t, TNode** a, int& k, TNode* p) const {
+void BST::fill(int t, TNode** a, int& k, TNode* p) const {
     if (p == NULL) return;
     if (p->count >= t) {
         a[k] = p;
         k++;
     }
-    fillHelper(t, a, k, p->left);
-    fillHelper(t, a, k, p->right);
+    fill(t, a, k, p->left);
+    fill(t, a, k, p->right);
 }
 
 // Sort the elements of a by the values in the nodes they point to.

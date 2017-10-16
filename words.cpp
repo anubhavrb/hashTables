@@ -26,6 +26,10 @@ using namespace std;
 
 bool validTableSize(int n);
 
+bool isInvalidPunct(const char& c) {
+    return ispunct(c) && c != '\'';
+}
+
 int main() {
 
     // Set the random number seed, set the file names, and get the load
@@ -100,40 +104,35 @@ int main() {
         doub.hash(allStrings[i]);
 
     }
-    
-    // test suite
-    cout << linear.search("a") << endl;
-    cout << linear.search("Davidson") << endl;
-    cout << quad.search("a") << endl;
-    cout << quad.search("Davidson") << endl;
-    cout << doub.search("a") << endl;
-    cout << doub.search("Davidson") << endl;
-     
-    
+
     // Get the text file to analyze.
     string filename;
     cout << "\nEnter name of file with the text to analyze: ";
     cin >> filename;
-    /*ifstream in;
+    ifstream in;
     in.open(filename.c_str());
     if (in.fail()) {
         cout << "Error opening file.\n";
         exit(1);
-    }*/
+    }
     cout << "\nLoading " << filename << "...\n";
 
     // Make the BST object, then process the file to load the tree.
     BST wordtree;
-    /* Code omitted */
-    // Dummy array to test sort method of bst
-    string test[10] = {"hello", "hello", "cat", "hello", "hello", "cat", "couch", "couch", "zoo", "umbrella"};
-    for (int i = 0; i < 10; i++) {
-        wordtree.insert(test[i]);
+    
+    string line;
+    while (in >> line) {
+        transform(line.begin(), line.end(), line.begin(), ::tolower);
+        line.erase(remove_if(line.begin(), line.end(), isInvalidPunct), line.end());
+        
+        if ((!linear.search(line))&&(!quad.search(line))&&(!doub.search(line))) {
+            wordtree.insert(line);
+        }
     }
 
     // Close the file stream object.
-    /*in.close();
-    in.clear();*/
+    in.close();
+    in.clear();
     cout << "Done.\n";
 
     // Get the count threshold and call the reporting method on the tree.
