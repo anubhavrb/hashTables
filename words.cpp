@@ -14,9 +14,9 @@
 using namespace std;
 
 #include "bst.h"
-//#include "doublehash.h"
+#include "doublehash.h"
 #include "linearprobe.h"
-//#include "quadraticprobe.h"
+#include "quadraticprobe.h"
 
 bool validTableSize(int n);
 
@@ -94,12 +94,22 @@ int main() {
     while(!validTableSize(arrSize)) arrSize--;
     // Constructor here with arrSize
     LinearProbe linear = LinearProbe(arrSize, alpha);
+    QuadraticProbe quad = QuadraticProbe(arrSize, alpha);
+    DoubleHash doub = DoubleHash(arrSize, alpha);
+    
     for (int i = 0; i < numStrings; i++){
         linear.hash(allStrings[i]);
+        quad.hash(allStrings[i]);
+        doub.hash(allStrings[i]);
+        
         //do the same thing for quad and double
     }
     cout << linear.search("a") << endl;
     cout << linear.search("Davidson") << endl;
+    cout << quad.search("a") << endl;
+    cout << quad.search("Davidson") << endl;
+    cout << doub.search("a") << endl;
+    cout << doub.search("Davidson") << endl;
     
     // Get the text file to analyze.
     string filename;

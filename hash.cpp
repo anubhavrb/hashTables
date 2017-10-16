@@ -35,13 +35,13 @@ void HashTable::hash(const string& s){
     int h = primaryHash(s);
     int offset = 0;
     if (table[h].compare("") != 0) {
-        initCollision();
+        initCollision(s);
         offset = collisionHandler();
-        while(table[h + offset] != ""){
+        while(table[(h + offset) % arrSize] != ""){
             offset = collisionHandler();
         }
     }
-    table[h + offset] = s;
+    table[(h + offset) % arrSize] = s;
 }
 
 // search for entry in table
@@ -50,13 +50,13 @@ bool HashTable::search(const string& s) {
     int h = primaryHash(s);
     if (table[h] == s) return true;
     else if (table[h] == "") return false;
-    initCollision();
+    initCollision(s);
     int offset = collisionHandler();
     
     int iterations = 0;
     while (iterations < arrSize) {
-        if (table[h + offset] == s) return true;
-        else if (table[h + offset] == "") return false;
+        if (table[(h + offset) % arrSize] == s) return true;
+        else if (table[(h + offset) % arrSize] == "") return false;
         offset = collisionHandler();
         iterations++;
     }
