@@ -114,18 +114,17 @@ int main() {
     string filename;
     cout << "\nEnter name of file with the text to analyze: ";
     cin >> filename;
-    ifstream in;
+    /*ifstream in;
     in.open(filename.c_str());
     if (in.fail()) {
         cout << "Error opening file.\n";
         exit(1);
-    }
+    }*/
     cout << "\nLoading " << filename << "...\n";
 
     // Make the BST object, then process the file to load the tree.
     BST wordtree;
     /* Code omitted */
-
     // Dummy array to test sort method of bst
     string test[10] = {"hello", "hello", "cat", "hello", "hello", "cat", "couch", "couch", "zoo", "umbrella"};
     for (int i = 0; i < 10; i++) {
@@ -133,8 +132,8 @@ int main() {
     }
 
     // Close the file stream object.
-    in.close();
-    in.clear();
+    /*in.close();
+    in.clear();*/
     cout << "Done.\n";
 
     // Get the count threshold and call the reporting method on the tree.
