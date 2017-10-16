@@ -21,6 +21,34 @@ BST::~BST() {
     if (root) kill(root);
 }
 
+// Function to compare two TNodes, first by count, then by word
+// MAYBE DOESN'T WORK MAYBE
+int BST::TNode::compareTo(const TNode* other) {
+<<<<<<< HEAD
+    
+    /*
+=======
+>>>>>>> 06525e3f30c1bdae16d667c85644fed9ff613ca0
+    if (this->count > other->count) return 1;
+    else if (this->count < other->count) return -1;
+    else {
+        if (this->word.compare(other->word) > 0) return 1;
+        else if (this->word.compare(other->word) < 0) return -1;
+        else return 0;
+    }
+<<<<<<< HEAD
+     */
+    
+    int dif = this->count - other->count;
+    if(dif == 0){
+        dif = -1*this->word.compare(other->word);
+    }
+    
+    return dif;
+=======
+>>>>>>> 06525e3f30c1bdae16d667c85644fed9ff613ca0
+}
+
 void BST::insert(const string& w) {
     // Call a private function to do the insertion, starting at the root.
     insert(root, w);
@@ -154,7 +182,7 @@ int BST::fill(int t, TNode** a, int k, TNode* p) const {
 
 // Auxiliary helper function to fill array a with pointers in the subtree
 // rooted at p beginning at index k if count >= t.
-void BST::fillHelper(int t, TNode** a, int k, TNode* p) const {
+void BST::fillHelper(int t, TNode** a, int& k, TNode* p) const {
     if (p == NULL) return;
     if (p->count >= t) {
         a[k] = p;
@@ -167,7 +195,33 @@ void BST::fillHelper(int t, TNode** a, int k, TNode* p) const {
 // Sort the elements of a by the values in the nodes they point to.
 // Sort by count, in descending order, and break ties by using alphabetical
 // order.  This must be O(n log(n)).
+// Using quick sort.
 void BST::sort(TNode** a, int first, int last) {
-    // You need to write this.
+    if (first < last) {
+        int q = partition(a, first, last);
+        sort(a, first, q - 1);
+        sort(a, q + 1, last);
+    }
 }
 
+// Hoare partitioning in descending order by count
+// DEBUG THIS IF PROBLEMS
+int BST::partition(TNode** a, int first, int last) {
+    int i = first, j = last - 1;
+    while (i <= j) {
+        while (a[i]->compareTo(a[last]) > 0) {
+            i++;
+        }
+        while ((i <= j) && (a[j]->compareTo(a[last])) <= 0) {
+            j--;
+        }
+        
+        if (i < j) {
+            swap(a[i], a[j]);
+            i++;
+            j--;
+        }
+    }
+    swap(a[i], a[last]);
+    return i;
+}

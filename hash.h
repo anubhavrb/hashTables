@@ -34,7 +34,6 @@ class HashTable{
     int counter;
 
   private:
-    int curIndex;
     string* table;
     int numHits;    // total # of search hits that occur on this table
     int numMisses;  // total # of search misses that occur on this table

@@ -50,6 +50,7 @@ class BST {
         TNode* left;
         TNode* right;
         TNode(const string& w) : word(w), count(1), left(0), right(0) {}
+        int compareTo(const TNode*);
     };
 
     TNode* root;
@@ -62,10 +63,11 @@ class BST {
     void kill(TNode*);
     void print(ostream&, TNode*) const;
     int fill(int, TNode**, int, TNode*) const;
-    void fillHelper(int, TNode**, int, TNode*) const;
+    void fillHelper(int, TNode**, int&, TNode*) const;
 
     // Static auxilliary methods.
     static void sort(TNode**, int, int);
+    static int partition(TNode**, int, int);
 
     // Disable copy constructor and assignment operator.
     BST(const BST&);
