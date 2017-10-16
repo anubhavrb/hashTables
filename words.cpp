@@ -60,7 +60,7 @@ int main() {
     // Make an array for all the words, load it, then shuffle the entries.
     int numStrings = numCommon + numEnglish16;
     string* allStrings = new string[numStrings];
-    /* Rest of code omitted */
+
     // Load common words into array
     for (int i = 0; i < numCommon; i++){
         inc >> allStrings[i];
@@ -75,9 +75,6 @@ int main() {
     for (int i = numStrings - 1; i >= 0; i--) {
         swap(allStrings[i], allStrings[static_cast<int>(drand48() * i)]);
     }
-    
-    //for (int i = 0; i < 20; i++) cout << allStrings[i] << endl;
-
 
     // Close the file stream objects.
     inc.close();
@@ -90,24 +87,28 @@ int main() {
     // find allowed table size
     int arrSize = floor(numStrings / alpha);
     while(!validTableSize(arrSize)) arrSize--;
-    // Constructor here with arrSize
+    
+    // initialize hash tables
     LinearProbe linear = LinearProbe(arrSize, alpha);
     QuadraticProbe quad = QuadraticProbe(arrSize, alpha);
     DoubleHash doub = DoubleHash(arrSize, alpha);
     
+    // fill hash tables
     for (int i = 0; i < numStrings; i++){
         linear.hash(allStrings[i]);
         quad.hash(allStrings[i]);
         doub.hash(allStrings[i]);
-        
-        //do the same thing for quad and double
+
     }
+    
+    // test suite
     cout << linear.search("a") << endl;
     cout << linear.search("Davidson") << endl;
     cout << quad.search("a") << endl;
     cout << quad.search("Davidson") << endl;
     cout << doub.search("a") << endl;
     cout << doub.search("Davidson") << endl;
+     
     
     // Get the text file to analyze.
     string filename;
@@ -144,7 +145,7 @@ int main() {
     return 0;
 }
 
-// function for prime testing. used for calculating table size.
+// function to calculate table size and choose largest allowed prime size
 bool validTableSize(int n){
     
     // base cases

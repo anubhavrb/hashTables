@@ -31,6 +31,7 @@ class HashTable{
     int primaryHash(const string&);
     virtual void initCollision(const string&) = 0;
     virtual int collisionHandler() = 0;
+    int counter;
 
   private:
     int curIndex;

@@ -16,13 +16,16 @@
 #include "hash.h"
 
 class QuadraticProbe : public HashTable {
-    public:
-        QuadraticProbe(int, double);
-    protected:
-        void initCollision(const string&);
-        int collisionHandler();
-    private:
-        int counter;
+    
+  public:
+    QuadraticProbe(int, double);
+    
+  protected:
+    void initCollision(const string&);
+    int collisionHandler();
+    
+  private:
+    
 };
 
 #endif /* quadraticprobe_h */
