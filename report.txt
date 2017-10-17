@@ -38,4 +38,112 @@ Linear Probing        34028                 10.4115               5.5           
 Quadratic Probing     34028                 2.62695               0                     28529                 11.3019               0                     0.904001              \
 Double Hashing        34028                 1.76522               2.55843               28528                 8.9531                10                    0.904001   \
 \
-}
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+Somebody once told me the world was gonna roll me. I ain\'92t the sharpest tool in the shed.\
+She was looking\'92 kinda dumb with her finger in her thumb and the shape of an L on her forehead.\
+Well the years start coming and they don\'92t stop coming. Back to the rules and I hit the ground running.\
+Didn\'92t make sense not to live for fun. Your brain gets smart but your head gets dumb.\
+So much to do, so much to see, so what\'92s wrong with taking the back streets?\
+You\'92ll never know if you don\'92t go. You\'92ll never shine if you don\'92t glow.\
+\
+Hey now, you\'92re a rock star, get your game on, go play!\
+Hey now, you\'92re an all star, get the show on, get paid!\
+And all that glitters is gold. Only shooting\'92 stars\'85\'85.}
