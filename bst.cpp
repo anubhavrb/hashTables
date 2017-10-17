@@ -177,7 +177,6 @@ void BST::sort(TNode** a, int first, int last) {
 }
 
 // Hoare partitioning in descending order by count
-// DEBUG THIS IF PROBLEMS
 int BST::partition(TNode** a, int first, int last) {
     int i = first, j = last - 1;
     while (i <= j) {
