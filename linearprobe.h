@@ -18,7 +18,7 @@
 class LinearProbe : public HashTable {
     
   public:
-    LinearProbe(int, double);
+    LinearProbe(int);
     
   protected:
     void initCollision(const string&);

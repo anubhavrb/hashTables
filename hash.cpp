@@ -12,7 +12,7 @@
 #include "hash.h"
 
 // constructor
-HashTable::HashTable(int maxN, double load){
+HashTable::HashTable(int maxN){
     
     // assign class variables
     numHits = 0;
@@ -65,18 +65,20 @@ bool HashTable::hash(const string& s){
 // search for entry in table
 bool HashTable::search(const string& s) {
     
+    if(s == "") return false; // don't evaluate empty strings
+    
     int h = primaryHash(s);
-    int probes = 0;
+    int probes = 1;
     
     // first probes at initial hash location
     if (table[h] == s){
         numHits++;
-        numSuccess += probes + 1;
+        numSuccess += probes;
         return true;
     }
     else if (table[h] == ""){
         numMisses++;
-        numFail += probes + 1;
+        numFail += probes;
         return false;
     }
     initCollision(s); // start collision handling if necessary
@@ -86,16 +88,15 @@ bool HashTable::search(const string& s) {
     while (probes < arrSize) { // limit search to size of hash table
         if (table[(h + offset + arrSize) % arrSize] == s){
             numHits++;
-            numSuccess += probes + 1;
+            numSuccess += probes;
             return true;
         }
         else if (table[(h + offset + arrSize) % arrSize] == ""){
             numMisses++;
-            numFail += probes + 1;
+            numFail += probes;
             return false;
         }
         offset = collisionHandler();
-        //numMisses++;
         probes++;
     }
     

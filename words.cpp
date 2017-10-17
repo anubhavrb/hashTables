@@ -108,9 +108,9 @@ int main() {
     cout << "Table size M = " << arrSize << endl;
     
     // initialize hash tables
-    LinearProbe linear = LinearProbe(arrSize, alpha);
-    QuadraticProbe quad = QuadraticProbe(arrSize, alpha);
-    DoubleHash doub = DoubleHash(arrSize, alpha);
+    LinearProbe linear = LinearProbe(arrSize);
+    QuadraticProbe quad = QuadraticProbe(arrSize);
+    DoubleHash doub = DoubleHash(arrSize);
     
     // fill hash tables
     bool flag = true;
@@ -191,7 +191,8 @@ int main() {
     // Now get the statistics from the hash table and print this report.
     /* Code INCOMPLETE */
     
-    cout << "Hash Table Performance Statitics: " << endl;
+    cout << "Hash Table Performance Statistics with load factor = "<< alpha <<
+    ", text file " << filename << ":" << endl;
     printTitle("Collision Handling", "# of Hits", "Avg. Probes/Hit",
                "Predicted Probes/Hit", "# of Misses", "Avg. Probes/Miss",
                "Predicted Probes/Miss", "Actual Load");

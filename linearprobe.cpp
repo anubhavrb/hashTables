@@ -13,7 +13,7 @@
 #include "linearprobe.h"
 
 // constructor - call base class constructor
-LinearProbe::LinearProbe(int maxN, double load) : HashTable(maxN, load) {}
+LinearProbe::LinearProbe(int maxN) : HashTable(maxN) {}
 
 // collision handler initialization
 void LinearProbe::initCollision(const string& s) {

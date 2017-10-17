@@ -18,7 +18,7 @@
 class DoubleHash : public HashTable {
     
   public:
-    DoubleHash(int, double);
+    DoubleHash(int);
     
   protected:
     void initCollision(const string&);
