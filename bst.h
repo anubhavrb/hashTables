@@ -1,6 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// bst.h
+//
 // Binary search tree class: header file
-// CSC 321 Fall 2017
-// M. Mossinghoff
+// CSC 321 Fall 2017 M. Mossinghoff
+//
+// Header file for binary search tree class used to store and count relevant
+// words from text files. Adapted from supplied code.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
+
 
 #ifndef bst_h
 #define bst_h
@@ -41,6 +50,7 @@ class BST {
         TNode* left;
         TNode* right;
         TNode(const string& w) : word(w), count(1), left(0), right(0) {}
+        int compareTo(const TNode*);
     };
 
     TNode* root;
@@ -52,10 +62,11 @@ class BST {
     int count(int, TNode*) const;
     void kill(TNode*);
     void print(ostream&, TNode*) const;
-    int fill(int, TNode**, int, TNode*) const;
+    void fill(int, TNode**, int&, TNode*) const;
 
     // Static auxilliary methods.
     static void sort(TNode**, int, int);
+    static int partition(TNode**, int, int);
 
     // Disable copy constructor and assignment operator.
     BST(const BST&);

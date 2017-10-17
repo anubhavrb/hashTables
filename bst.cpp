@@ -1,6 +1,14 @@
-// Binary search tree class: implementation file
-// CSC 321 Fall 2017
-// M. Mossinghoff
+////////////////////////////////////////////////////////////////////////////////
+// bst.cpp
+//
+// Binary search tree class: header file
+// CSC 321 Fall 2017 M. Mossinghoff
+//
+// Implementation file for binary search tree class used to store and count
+// relevant words from text files. Adapted from supplied code.
+// Anubhav Roy Bhattacharya, Harry Zhou, Collin Epstein
+// 10/16/17
+////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <cstddef>
@@ -11,6 +19,17 @@ using namespace std;
 BST::~BST() {
     // Call a private function to delete the entire tree.
     if (root) kill(root);
+}
+
+// Function to compare two TNodes, first by count, then by word
+// MAYBE DOESN'T WORK MAYBE
+int BST::TNode::compareTo(const TNode* other) {
+    int dif = this->count - other->count;
+    if(dif == 0){
+        dif = -1*this->word.compare(other->word);
+    }
+    
+    return dif;
 }
 
 void BST::insert(const string& w) {
@@ -49,7 +68,7 @@ int BST::remove(const string& w, TNode*& p) {
         // Either p is a leaf, or p has a left child but no right child.
         p = p->left;
     } else if (p->left == NULL) {
-        // p has a right child but no right child.
+        // p has a right child but no left child.
         p = p->right;
     } else {
         // p has both a left and a right child.  Use improved "copy"
@@ -120,7 +139,8 @@ void BST::report(int t) const {
     if (root) {
         int num = count(t);
         TNode** a = new TNode*[num];
-        fill(t, a, 0, root);
+        int k = 0;
+        fill(t, a, k, root);
         sort(a, 0, num-1);
         for (int i=0; i<num; i++) {
             cout << a[i]->word << " " << a[i]->count << endl;
@@ -134,14 +154,46 @@ void BST::report(int t) const {
 // Fill the array a with pointers in the subtree rooted at p beginning at
 // index k in the array a.
 // Precondition: p is not null, and the array has sufficient room.
-int BST::fill(int t, TNode** a, int k, TNode* p) const {
-    // You need to write this.
+void BST::fill(int t, TNode** a, int& k, TNode* p) const {
+    if (p == NULL) return;
+    if (p->count >= t) {
+        a[k] = p;
+        k++;
+    }
+    fill(t, a, k, p->left);
+    fill(t, a, k, p->right);
 }
 
 // Sort the elements of a by the values in the nodes they point to.
 // Sort by count, in descending order, and break ties by using alphabetical
 // order.  This must be O(n log(n)).
+// Using quick sort.
 void BST::sort(TNode** a, int first, int last) {
-    // You need to write this.
+    if (first < last) {
+        int q = partition(a, first, last);
+        sort(a, first, q - 1);
+        sort(a, q + 1, last);
+    }
 }
 
+// Hoare partitioning in descending order by count
+// DEBUG THIS IF PROBLEMS
+int BST::partition(TNode** a, int first, int last) {
+    int i = first, j = last - 1;
+    while (i <= j) {
+        while (a[i]->compareTo(a[last]) > 0) {
+            i++;
+        }
+        while ((i <= j) && (a[j]->compareTo(a[last])) <= 0) {
+            j--;
+        }
+        
+        if (i < j) {
+            swap(a[i], a[j]);
+            i++;
+            j--;
+        }
+    }
+    swap(a[i], a[last]);
+    return i;
+}
