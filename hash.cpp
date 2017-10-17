@@ -20,6 +20,7 @@ HashTable::HashTable(int maxN, double load){
     numSuccess = 0;
     numFail = 0;
     arrSize = maxN;
+    numElements = 0;
     
     // initialize hash table array
     table = new string[arrSize];
@@ -33,20 +34,32 @@ HashTable::~HashTable(){
 }
 
 // general hash function
-void HashTable::hash(const string& s){
+bool HashTable::hash(const string& s){
     
     int h = primaryHash(s);
     int offset = 0;
+    int probes = 0;
     
     if (table[h].compare("") != 0) { // start collision handling if necessary
         initCollision(s);
         offset = collisionHandler();
-        while(table[(h + offset) % arrSize] != ""){
+        probes++;
+        while(probes < arrSize && table[(h + offset + arrSize) % arrSize] != "")
+        {
             offset = collisionHandler();
+            probes ++;
         }
     }
     
-    table[(h + offset) % arrSize] = s; // store string
+    // report if value can actually be stored in hash table
+    if (probes < arrSize){
+        table[(h + offset + arrSize) % arrSize] = s;  // store string
+        numElements++;                      // increment stored elements count
+        return true;
+    } else {
+        return false;
+    }
+    
 }
 
 // search for entry in table
@@ -71,22 +84,43 @@ bool HashTable::search(const string& s) {
     
     // find allowed location using collision handler
     while (probes < arrSize) { // limit search to size of hash table
-        if (table[(h + offset) % arrSize] == s){
+        if (table[(h + offset + arrSize) % arrSize] == s){
             numHits++;
             numSuccess += probes + 1;
             return true;
         }
-        else if (table[(h + offset) % arrSize] == ""){
+        else if (table[(h + offset + arrSize) % arrSize] == ""){
             numMisses++;
             numFail += probes + 1;
             return false;
         }
         offset = collisionHandler();
-        numMisses++;
+        //numMisses++;
         probes++;
     }
     
     return false;
+}
+
+// getter for total # of search hits that occur on this table
+int HashTable::getNumHits(){ return numHits; }
+
+// getter for total # of search misses that occur on this table
+int HashTable::getNumMisses(){ return numMisses; }
+
+// calculates and returns total # of probes on successful searches on this table
+float HashTable::getAvgOnSuccess(){
+    return static_cast<float>(numSuccess) / static_cast<float>(numHits);
+}
+
+// calculates and returns total # of probes on failed searches on this table
+float HashTable::getAvgOnFail(){
+    return static_cast<float>(numFail) / static_cast<float>(numMisses);
+}
+
+// getter for actual table load factor
+float HashTable::getLoadFactor(){
+    return (float) numElements / (float) arrSize;
 }
 
 // primary hash function. uses horner evaluation on string to create hash value
@@ -99,26 +133,6 @@ int HashTable::primaryHash(const string& s){
     for(int i = 0 ; i < s.length(); i++) h = (b * h + s[i]) % arrSize;
     
     return h;
-}
-
-// getter for number of search hits that occur on this talble
-int HashTable::getNumHits(){
-    return numHits;
-}
-
-// getter for number of search misses that occur on this table
-int HashTable::getNumMisses(){
-    return numMisses;
-}
-
-// getter for number of probes during successful searches on this table
-float HashTable::getAvgOnSuccess(){
-    return numSuccess;
-}
-
-// getter for number of probes during failed searches on this table
-float HashTable::getAvgOnFail(){
-    return numFail;
 }
 
 

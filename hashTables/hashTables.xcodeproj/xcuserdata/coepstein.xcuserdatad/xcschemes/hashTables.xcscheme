@@ -47,7 +47,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/coepstein/Documents/nonundergraduateZarathustrianism/hashTables/hashTables/hashTables"
+      customWorkingDirectory = "/Users/coepstein/Documents/hashTables/hashTables/hashTables/hashTables"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"

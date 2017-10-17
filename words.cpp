@@ -16,6 +16,7 @@
 #include <cmath>
 #include <cassert>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -24,11 +25,19 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
-bool validTableSize(int n);
+const int WIDTH = 22;
 
-bool isInvalidPunct(const char& c) {
-    return ispunct(c) && c != '\'';
-}
+bool validTableSize(int n);
+bool isInvalidPunct(const char& c);
+template<typename T> void printElement(T t);
+void printTitle(const string& name, const string& hits,
+                const string& actAvgHits, const string& predAvgHits,
+                const string& misses, const string& actAvgMisses,
+                const string& predAvgMissess,
+                const string& actAlpha);
+void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
+              int misses, float actAvgMisses, float predAvgMisses,
+              float actAlpha);
 
 int main() {
 
@@ -91,6 +100,7 @@ int main() {
     // find allowed table size
     int arrSize = floor(numStrings / alpha);
     while(!validTableSize(arrSize)) arrSize--;
+    cout << "Table size M = " << arrSize << endl;
     
     // initialize hash tables
     LinearProbe linear = LinearProbe(arrSize, alpha);
@@ -98,11 +108,16 @@ int main() {
     DoubleHash doub = DoubleHash(arrSize, alpha);
     
     // fill hash tables
+    bool flag = true;
     for (int i = 0; i < numStrings; i++){
-        linear.hash(allStrings[i]);
-        quad.hash(allStrings[i]);
-        doub.hash(allStrings[i]);
-
+        flag = flag && linear.hash(allStrings[i]);
+        flag = flag && quad.hash(allStrings[i]);
+        flag = flag && doub.hash(allStrings[i]);
+        if(!flag){
+            cout << "Unable to enter " << allStrings[i] << " into the tables."
+                << endl;
+            exit(1);
+        }
     }
 
     // Get the text file to analyze.
@@ -120,12 +135,18 @@ int main() {
     // Make the BST object, then process the file to load the tree.
     BST wordtree;
     
+    // parse input - each word is put in lower case, punctuation removed
+    // TODO: deal with dashes and apostraphes
     string line;
+    bool linResult, quadResult, doubResult;
     while (in >> line) {
         transform(line.begin(), line.end(), line.begin(), ::tolower);
-        line.erase(remove_if(line.begin(), line.end(), isInvalidPunct), line.end());
-        
-        if ((!linear.search(line))&&(!quad.search(line))&&(!doub.search(line))) {
+        line.erase(remove_if(line.begin(), line.end(), isInvalidPunct),
+                   line.end());
+        linResult = linear.search(line);
+        quadResult = quad.search(line);
+        doubResult = doub.search(line);
+        if (!linResult && !quadResult && !doubResult){
             wordtree.insert(line);
         }
     }
@@ -144,9 +165,25 @@ int main() {
     wordtree.report(thresh);
 
     // Now get the statistics from the hash table and print this report.
-    /* Code omitted */
+    /* Code INCOMPLETE */
+    
+    cout << "Hash Table Performance Statitics: " << endl;
+    printTitle("Collision Handling", "# of Hits", "Avg. Probes/Hit",
+               "Predicted Probes/Hit", "# of Misses", "Avg. Probes/Miss",
+               "Predicted Probes/Miss", "Actual Load");
+    printRow("Linear Probing", linear.getNumHits(), linear.getAvgOnSuccess(),
+             0.5 * (1 + (1 / (1 - alpha))), linear.getNumMisses(),
+            linear.getAvgOnFail(), 0.5 * (1 + (1 / pow((1 - alpha), 2))),
+             linear.getLoadFactor());
+    printRow("Quadratic Probing", quad.getNumHits(), quad.getAvgOnSuccess(),
+             NULL, quad.getNumMisses(), quad.getAvgOnFail(), NULL,
+             quad.getLoadFactor());
+    printRow("Double Hashing", doub.getNumHits(), doub.getAvgOnSuccess(),
+             (1 / alpha) * log(1 / (1 - alpha)), doub.getNumMisses(),
+             doub.getAvgOnFail(), 1 / (1 - alpha), doub.getLoadFactor());
 
-    delete [] allStrings;
+    delete [] allStrings; // clean up
+    
     return 0;
 }
 
@@ -165,4 +202,48 @@ bool validTableSize(int n){
     
     // true if congruent to 3 mod 4 AND THUS VALID, else false
     return n % 4 == 3;
+}
+
+// checks whether a character is invalid for our purposes
+// invalid characters = all punctuation except apostraphes (')
+bool isInvalidPunct(const char& c) {
+    return ispunct(c) && c != '\'';
+    
+}
+
+// Function to pretty print a table
+template<typename T> void printElement(T t) {
+    cout << left << setw(WIDTH) << setfill(' ') << t;
+}
+
+// Function to print a table row prettified
+void printTitle(const string& name, const string& hits,
+                const string& actAvgHits, const string& predAvgHits,
+                const string& misses, const string& actAvgMisses,
+                const string& predAvgMissess,
+                const string& actAlpha) {
+    printElement(name);
+    printElement(hits);
+    printElement(actAvgHits);
+    printElement(predAvgHits);
+    printElement(misses);
+    printElement(actAvgMisses);
+    printElement(predAvgMissess);
+    printElement(actAlpha);
+    cout << endl;
+}
+
+// Function to print a table row prettified
+void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
+              int misses, float actAvgMisses, float predAvgMisses,
+              float actAlpha){
+    printElement(name);
+    printElement(hits);
+    printElement(actAvgHits);
+    printElement(predAvgHits);
+    printElement(misses);
+    printElement(actAvgMisses);
+    printElement(predAvgMisses);
+    printElement(actAlpha);
+    cout << endl;
 }
