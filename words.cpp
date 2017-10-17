@@ -36,7 +36,8 @@ void printTitle(const string& name, const string& hits,
                 const string& predAvgMissess,
                 const string& actAlpha);
 void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
-              int misses, float actAvgMisses, float predAvgMisses, int actAlpha);
+              int misses, float actAvgMisses, float predAvgMisses,
+              float actAlpha);
 
 int main() {
 
@@ -99,7 +100,7 @@ int main() {
     // find allowed table size
     int arrSize = floor(numStrings / alpha);
     while(!validTableSize(arrSize)) arrSize--;
-    cout << "Table size M = " << arrSize;
+    cout << "Table size M = " << arrSize << endl;
     
     // initialize hash tables
     LinearProbe linear = LinearProbe(arrSize, alpha);
@@ -234,8 +235,8 @@ void printTitle(const string& name, const string& hits,
 
 // Function to print a table row prettified
 void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
-              int misses, float actAvgMisses, float predAvgMisses, int actAlpha)
-{
+              int misses, float actAvgMisses, float predAvgMisses,
+              float actAlpha){
     printElement(name);
     printElement(hits);
     printElement(actAvgHits);

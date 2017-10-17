@@ -20,6 +20,7 @@ HashTable::HashTable(int maxN, double load){
     numSuccess = 0;
     numFail = 0;
     arrSize = maxN;
+    numElements = 0;
     
     // initialize hash table array
     table = new string[arrSize];
@@ -43,13 +44,16 @@ bool HashTable::hash(const string& s){
         initCollision(s);
         offset = collisionHandler();
         probes++;
-        while(probes < arrSize && table[(h + offset) % arrSize] != ""){
+        while(probes < arrSize && table[(h + offset + arrSize) % arrSize] != "")
+        {
             offset = collisionHandler();
             probes ++;
         }
     }
+    
+    // report if value can actually be stored in hash table
     if (probes < arrSize){
-        table[(h + offset) % arrSize] = s;  // store string
+        table[(h + offset + arrSize) % arrSize] = s;  // store string
         numElements++;                      // increment stored elements count
         return true;
     } else {
@@ -80,12 +84,12 @@ bool HashTable::search(const string& s) {
     
     // find allowed location using collision handler
     while (probes < arrSize) { // limit search to size of hash table
-        if (table[(h + offset) % arrSize] == s){
+        if (table[(h + offset + arrSize) % arrSize] == s){
             numHits++;
             numSuccess += probes + 1;
             return true;
         }
-        else if (table[(h + offset) % arrSize] == ""){
+        else if (table[(h + offset + arrSize) % arrSize] == ""){
             numMisses++;
             numFail += probes + 1;
             return false;
@@ -116,7 +120,7 @@ float HashTable::getAvgOnFail(){
 
 // getter for actual table load factor
 float HashTable::getLoadFactor(){
-    return static_cast<float>(numElements) / static_cast<float>(arrSize);
+    return (float) numElements / (float) arrSize;
 }
 
 // primary hash function. uses horner evaluation on string to create hash value
