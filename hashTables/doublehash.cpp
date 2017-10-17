@@ -35,8 +35,8 @@ int DoubleHash::h2(const string& s){
     
     // Horner evaluation
     for(int i = 0 ; i < s.length(); i++) h = (b * h + s[i]) % arrSize;
-    /*if (h < 1){
+    if (h < 1){
         h += s.length(); // may not return 0. assumes word length < 127 letters
-    }*/
+    }
     return h;
 }
