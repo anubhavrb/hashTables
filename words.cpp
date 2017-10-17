@@ -9,6 +9,7 @@
 // 10/16/17
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -16,6 +17,7 @@
 #include <cmath>
 #include <cassert>
 #include <string>
+#include <queue>
 #include <iomanip>
 
 using namespace std;
@@ -25,9 +27,9 @@ using namespace std;
 #include "linearprobe.h"
 #include "quadraticprobe.h"
 
-const int WIDTH = 22;
+const int WIDTH = 22; // results table spacing
 
-bool validTableSize(int n);
+bool validTableSize(int& n);
 bool isInvalidPunct(const char& c);
 template<typename T> void printElement(T t);
 void printTitle(const string& name, const string& hits,
@@ -35,9 +37,12 @@ void printTitle(const string& name, const string& hits,
                 const string& misses, const string& actAvgMisses,
                 const string& predAvgMissess,
                 const string& actAlpha);
-void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
-              int misses, float actAvgMisses, float predAvgMisses,
-              float actAlpha);
+void printRow(const string& name, const int& hits, const float& actAvgHits,
+              const float& predAvgHits, const int& misses,
+              const float& actAvgMisses, const float& predAvgMisses,
+              const float& actAlpha);
+bool evaluateWord(const string& word, LinearProbe& linear,
+                  QuadraticProbe& quad, DoubleHash& doub);
 
 int main() {
 
@@ -103,9 +108,9 @@ int main() {
     cout << "Table size M = " << arrSize << endl;
     
     // initialize hash tables
-    LinearProbe linear = LinearProbe(arrSize, alpha);
-    QuadraticProbe quad = QuadraticProbe(arrSize, alpha);
-    DoubleHash doub = DoubleHash(arrSize, alpha);
+    LinearProbe linear = LinearProbe(arrSize);
+    QuadraticProbe quad = QuadraticProbe(arrSize);
+    DoubleHash doub = DoubleHash(arrSize);
     
     // fill hash tables
     bool flag = true;
@@ -135,20 +140,39 @@ int main() {
     // Make the BST object, then process the file to load the tree.
     BST wordtree;
     
-    // parse input - each word is put in lower case, punctuation removed
+    // parse input - read in character by character
+    // make all characters lower case, remove punctuation except apostraphes
+    // dashes and whitespace indicate new word beginning
     // TODO: deal with dashes and apostraphes
     string line;
-    bool linResult, quadResult, doubResult;
+    string temp = "";
     while (in >> line) {
+        
+        // make all characters lower case
         transform(line.begin(), line.end(), line.begin(), ::tolower);
+        
+        // remove punctuation other than apostraphes (') and dashes (-)
         line.erase(remove_if(line.begin(), line.end(), isInvalidPunct),
                    line.end());
-        linResult = linear.search(line);
-        quadResult = quad.search(line);
-        doubResult = doub.search(line);
-        if (!linResult && !quadResult && !doubResult){
-            wordtree.insert(line);
+        
+        // evaluate words with dashes - split into two words
+        for (int i = 0; i < line.length(); i++){
+            if (line.at(i) == '-'){
+                if(evaluateWord(temp, linear, quad, doub)){
+                    wordtree.insert(temp);
+                }
+                temp = "";
+            }
+            else{
+                temp += line.at(i);
+            }
+            
         }
+        if(evaluateWord(temp, linear, quad, doub)){
+            wordtree.insert(temp);
+        }
+        temp = "";
+
     }
 
     // Close the file stream object.
@@ -167,7 +191,8 @@ int main() {
     // Now get the statistics from the hash table and print this report.
     /* Code INCOMPLETE */
     
-    cout << "Hash Table Performance Statitics: " << endl;
+    cout << "Hash Table Performance Statistics with load factor = "<< alpha <<
+    ", text file " << filename << ":" << endl;
     printTitle("Collision Handling", "# of Hits", "Avg. Probes/Hit",
                "Predicted Probes/Hit", "# of Misses", "Avg. Probes/Miss",
                "Predicted Probes/Miss", "Actual Load");
@@ -188,7 +213,7 @@ int main() {
 }
 
 // function to calculate table size and choose largest allowed prime size
-bool validTableSize(int n){
+bool validTableSize(int& n){
     
     // base cases
     if(n == 0 || n == 1) return false;
@@ -205,9 +230,9 @@ bool validTableSize(int n){
 }
 
 // checks whether a character is invalid for our purposes
-// invalid characters = all punctuation except apostraphes (')
+// invalid characters = all punctuation except apostraphes (') and dashes (-)
 bool isInvalidPunct(const char& c) {
-    return ispunct(c) && c != '\'';
+    return ispunct(c) && c != '\'' && c != '-';
     
 }
 
@@ -234,9 +259,10 @@ void printTitle(const string& name, const string& hits,
 }
 
 // Function to print a table row prettified
-void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
-              int misses, float actAvgMisses, float predAvgMisses,
-              float actAlpha){
+void printRow(const string& name, const int& hits, const float& actAvgHits,
+              const float& predAvgHits, const int& misses,
+              const float& actAvgMisses, const float& predAvgMisses,
+              const float& actAlpha){
     printElement(name);
     printElement(hits);
     printElement(actAvgHits);
@@ -246,4 +272,13 @@ void printRow(const string& name, int hits, float actAvgHits, float predAvgHits,
     printElement(predAvgMisses);
     printElement(actAlpha);
     cout << endl;
+}
+
+// tests word against hash tables, adds to tree if not in hash tables
+bool evaluateWord(const string& word, LinearProbe& linear,
+                  QuadraticProbe& quad, DoubleHash& doub){
+    bool linResult = linear.search(word);
+    bool quadResult = quad.search(word);
+    bool doubResult = doub.search(word);
+    return (!linResult && !quadResult && !doubResult);
 }

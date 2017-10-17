@@ -21,7 +21,7 @@ using namespace std;
 
 class HashTable{
   public:
-    HashTable(int, double);
+    HashTable(int);
     ~HashTable();
     bool hash(const string&);
     bool search(const string&);

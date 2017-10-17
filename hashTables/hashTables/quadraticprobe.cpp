@@ -14,7 +14,7 @@
 #include "quadraticprobe.h"
 
 // constructor - call base class constructor
-QuadraticProbe::QuadraticProbe(int maxN, double load): HashTable(maxN, load){}
+QuadraticProbe::QuadraticProbe(int maxN): HashTable(maxN){}
 
 // collision handler initialization
 void QuadraticProbe::initCollision(const string& s) {

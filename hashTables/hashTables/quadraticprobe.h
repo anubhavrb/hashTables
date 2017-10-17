@@ -18,7 +18,7 @@
 class QuadraticProbe : public HashTable {
     
   public:
-    QuadraticProbe(int, double);
+    QuadraticProbe(int);
     
   protected:
     void initCollision(const string&);

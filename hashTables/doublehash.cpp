@@ -13,7 +13,7 @@
 #include "doublehash.h"
 
 // constructor - call base class constructor
-DoubleHash::DoubleHash(int maxN, double load): HashTable(maxN, load){}
+DoubleHash::DoubleHash(int maxN): HashTable(maxN){}
 
 // collision handler initialization
 void DoubleHash::initCollision(const string& s) {
